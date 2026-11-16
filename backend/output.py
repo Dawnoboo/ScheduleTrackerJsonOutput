@@ -19,20 +19,19 @@ class Course: # convert this sample class to json
         self.useableForSchools = U
 
 # sample dict: 
-# dictionary = {"College": ["Chabot","LasPositas"], "Courses": [[courseA, courseB,courseC],[courseA]]}
-# Number of college names must match number of arrays in courses
+# dictionary = {"Chabot": [], "lasPositas": []}
+# Each key must contain a list of Course objects
 
 # Template function for outputting data from algorithms to front via json
-def User_Courses(result): # argument : dict
+def User_Courses(result: dict[str, list[Course]]): # argument : dict
     output = [] # what will be outputted into a Json
-    i = 0 # needed for inner for loop
     indent = 0 # counts number of indents (kinda like number of lines) we need
-    for college in result["College"]: # loops through each college
-        temp = {
-                college: [] # will store our course info as json objects
-            }
-        for course in result["Courses"][i]: # loops through the actual courses
-            courseTemp = {
+    for college in result: # loops through the colleges
+        temp = { # temp be a single dict with college as it's key
+            college: [] 
+        }
+        for course in result[college]: # loops through the college's courses
+            courseTemp = { # temp object for each course
                 "title": course.courseTitle,
                 "subject": course.courseSubject,
                 "number": course.courseNumber,
@@ -41,25 +40,24 @@ def User_Courses(result): # argument : dict
                 "genEd": course.genEdFulfillment,
                 "forSchools": course.useableForSchools
             }
-            indent += 1
-            temp[college].append(courseTemp) # pushes the course to the end of the Temp
-        output.append(temp) # pushes the temp to the end of the output
-        i += 1
-        indent +=1
+            indent += 1 # indent per course
+            temp[college].append(courseTemp) # appends the course into it's college dict
+        output.append(temp) # appends the college into the output dict
+        indent+=1 # indent per college
+        
     with open("result.json", "w") as file:
-        json.dump(output,file, indent=indent) # dumps output into a json format
+        json.dump(output,file, indent=indent) # dumps output dict into a json format
 
 # Sample test Code : 
 # a = Course("Introduction to Programming C++","CSCI", "14", 3, ["MTH55"],[],["SJSU"])
-# b = Course("Calcus II", "MTH", "2", 5,["MTH1"],["Area 2"],["SJSU"])
+# b = Course("Calcus II", "MTH", "2", 5,["MTH1"],["Area 2", "Area 4"],["SJSU"])
 # c = Course("General Physics I","PHYS","1A",5,["MTH2"],["Area 5A"],["SJSU"])
-# d = {"College": ["chabot","lasPositas"], "Courses": [[a,b],[c]]}
+# d = {"Chabot": [a,b], "LasPositas": [c]}
 # User_Courses(d)
-#
-# Sample json output :
+# Sample Output: 
 # [
 #      {
-#           "chabot": [
+#           "Chabot": [
 #                {
 #                     "title": "Introduction to Programming C++",
 #                     "subject": "CSCI",
@@ -82,7 +80,8 @@ def User_Courses(result): # argument : dict
 #                          "MTH1"
 #                     ],
 #                     "genEd": [
-#                          "Area 2"
+#                          "Area 2",
+#                          "Area 4"
 #                     ],
 #                     "forSchools": [
 #                          "SJSU"
@@ -91,7 +90,7 @@ def User_Courses(result): # argument : dict
 #           ]
 #      },
 #      {
-#           "lasPositas": [
+#           "LasPositas": [
 #                {
 #                     "title": "General Physics I",
 #                     "subject": "PHYS",

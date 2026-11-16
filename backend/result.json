@@ -1,6 +1,6 @@
 [
      {
-          "chabot": [
+          "Chabot": [
                {
                     "title": "Introduction to Programming C++",
                     "subject": "CSCI",
@@ -23,7 +23,8 @@
                          "MTH1"
                     ],
                     "genEd": [
-                         "Area 2"
+                         "Area 2",
+                         "Area 4"
                     ],
                     "forSchools": [
                          "SJSU"
@@ -32,7 +33,7 @@
           ]
      },
      {
-          "lasPositas": [
+          "LasPositas": [
                {
                     "title": "General Physics I",
                     "subject": "PHYS",
